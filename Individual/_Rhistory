@@ -1,0 +1,31 @@
+rm(list = ls())
+options(digits = 4)
+GCD = read.csv("C:/Users/NABIL AHMED/Desktop/german_credit_data.csv")
+attach(GCD)
+set.seed(25364170) #Seed=student ID
+train.row = sample(1:nrow(GCD), 0.7 * nrow(GCD))
+GCD.train = GCD[train.row,]
+GCD.test = GCD[-train.row,]
+library(rpart)
+library(ROCR)
+library(tree)
+library(e1071)
+library(adabag)
+library(randomForest)
+library(ROCR)
+library(tree)
+library(randomForest)
+library(rpart)
+GCD.tree = tree(as.factor(Class.label)~. ,data = GCD.train)
+GCD.predtree = predict(GCD.tree, GCD.test, type = "class")
+t1=table(Predicted_Class=GCD.predtree, Actual_Class=GCD.test$Class.label)
+cat("\n#Decision Tree Confusion\n")
+t1
+GCD.pred.tree = predict(GCD.tree, GCD.test, type = "vector")
+GCDpred = prediction(GCD.pred.tree[,2], GCD.test$Class.label)
+GCDpred
+GCDpred = prediction(GCD.pred.tree[,2], GCD.test$Class.label)
+GCDperf
+GCDpred = prediction(GCD.pred.tree[,2], GCD.test$Class.label)
+GCDperf = performance(GCDpred, "tpr", "fpr")
+GCDperf
